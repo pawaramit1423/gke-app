@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: gke-app
-        image: gcr.io/$PROJECT_ID/gke-app:$COMMIT_SHA
+        image: us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img
         ports:
         - containerPort: 8080
 

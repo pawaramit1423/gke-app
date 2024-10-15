@@ -1,19 +1,27 @@
+---
 steps:
-- name: 'node:14'
-  entrypoint: 'npm'
-  args: ['install']
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img
+      - ./src
+    id: Build Docker Image
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img
+    id: Push Docker Image
+  - name: google/cloud-sdk:latest
+    entrypoint: sh
+    args:
+      - -xe
+      - -c
+      - >
+        gcloud deploy apply --file deploy/pipeline.yaml --region=us-central1
 
-- name: 'gcr.io/cloud-builders/snyk'
-  args: ['test']
+        gcloud deploy apply --file deploy/dev.yaml --region=us-central1
 
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/gke-app:$COMMIT_SHA', '.']
-
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/gke-app:$COMMIT_SHA']
-
-- name: 'gcr.io/gcloud-builders/kubectl'
-  args: ['apply', '-f', 'k8s/dev-deployment.yaml']
-
-images:
-- 'gcr.io/$PROJECT_ID/gke-app:$COMMIT_SHA'
+        gcloud deploy releases create 'app-release-${SHORT_SHA}' --delivery-pipeline=gke-cicd-pipeline --region=us-central1 --skaffold-file=skaffold.yaml
+options:
+  logging: CLOUD_LOGGING_ONLY
