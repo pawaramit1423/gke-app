@@ -1,0 +1,7 @@
+gcloud container clusters create dev-cluster \
+    --zone us-central1-a --num-nodes=3 --enable-ip-alias
+
+gcloud container clusters create stage-cluster \
+    --zone us-central1-a --num-nodes=3 --enable-ip-alias
+
+gcloud container clusters get-credentials dev-cluster --zone us-central1-a

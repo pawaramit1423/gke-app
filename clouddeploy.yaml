@@ -1,0 +1,16 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: gke-app-pipeline
+spec:
+  stages:
+  - name: dev
+    target:
+      gke:
+        cluster: projects/YOUR_PROJECT_ID/locations/YOUR_ZONE/clusters/dev-cluster
+    profiles: []
+  # - name: stage
+  #   target:
+  #     gke:
+  #       cluster: projects/YOUR_PROJECT_ID/locations/YOUR_ZONE/clusters/stage-cluster
+  #   profiles: []

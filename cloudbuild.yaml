@@ -1,0 +1,19 @@
+steps:
+- name: 'node:14'
+  entrypoint: 'npm'
+  args: ['install']
+
+- name: 'gcr.io/cloud-builders/snyk'
+  args: ['test']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/gke-app:$COMMIT_SHA', '.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/gke-app:$COMMIT_SHA']
+
+- name: 'gcr.io/gcloud-builders/kubectl'
+  args: ['apply', '-f', 'k8s/dev-deployment.yaml']
+
+images:
+- 'gcr.io/$PROJECT_ID/gke-app:$COMMIT_SHA'
