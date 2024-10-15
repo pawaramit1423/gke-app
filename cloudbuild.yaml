@@ -17,7 +17,7 @@ steps:
     args:
       - -xe
       - -c
-      - >
+      - |
         gcloud deploy apply --file deploy/pipeline.yaml --region=us-central1
 
         gcloud deploy apply --file deploy/dev.yaml --region=us-central1
