@@ -12,6 +12,7 @@ steps:
       - push
       - us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img
     id: Push Docker Image
+    
 #   - name: google/cloud-sdk:latest
 #     entrypoint: sh
 #     args:
@@ -26,13 +27,16 @@ steps:
 # options:
 #   logging: CLOUD_LOGGING_ONLY
 
-- name: gcr.io/google.com/cloudsdktool/cloud-sdk
-  entrypoint: gcloud
-  args: 
-    [
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args: 
+      [
       "deploy", "releases", "create", "rel-${SHORT_SHA}",
       "--delivery-pipeline", "gitops",
       "--region", "us-central1",
       "--annotations", "commitId=${REVISION_ID}",
       "--images", "us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img"
-    ]  
+     ]  
+
+options:
+  logging: CLOUD_LOGGING_ONLY
