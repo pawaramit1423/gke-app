@@ -32,7 +32,7 @@ steps:
     args: 
       [
       "deploy", "releases", "create", "rel-${SHORT_SHA}",
-      "--delivery-pipeline", "gitops",
+      "--delivery-pipeline", "gkecicd",
       "--region", "us-central1",
       "--annotations", "commitId=${REVISION_ID}",
       "--images", "node-img=us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img:latest"
