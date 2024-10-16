@@ -35,7 +35,7 @@ steps:
       "--delivery-pipeline", "gitops",
       "--region", "us-central1",
       "--annotations", "commitId=${REVISION_ID}",
-      "--images", "us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img"
+      "--images", "node-img=us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img:latest"
      ]  
 
 options:
