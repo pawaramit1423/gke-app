@@ -12,16 +12,27 @@ steps:
       - push
       - us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img
     id: Push Docker Image
-  - name: google/cloud-sdk:latest
-    entrypoint: sh
-    args:
-      - -xe
-      - -c
-      - |
-        gcloud deploy apply --file deploy/pipeline.yaml --region=us-central1
+#   - name: google/cloud-sdk:latest
+#     entrypoint: sh
+#     args:
+#       - -xe
+#       - -c
+#       - |
+#         gcloud deploy apply --file deploy/pipeline.yaml --region=us-central1
 
-        gcloud deploy apply --file deploy/dev.yaml --region=us-central1
+#         gcloud deploy apply --file deploy/dev.yaml --region=us-central1
 
-        gcloud deploy releases create 'app-release-${SHORT_SHA}' --delivery-pipeline=gke-cicd-pipeline --region=us-central1 --skaffold-file=skaffold.yaml
-options:
-  logging: CLOUD_LOGGING_ONLY
+#         gcloud deploy releases create 'app-release-${SHORT_SHA}' --delivery-pipeline=gke-cicd-pipeline --region=us-central1 --skaffold-file=skaffold.yaml
+# options:
+#   logging: CLOUD_LOGGING_ONLY
+
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: gcloud
+  args: 
+    [
+      "deploy", "releases", "create", "rel-${SHORT_SHA}",
+      "--delivery-pipeline", "gitops",
+      "--region", "us-central1",
+      "--annotations", "commitId=${REVISION_ID}",
+      "--images", "us-central1-docker.pkg.dev/prefab-faculty-438111-k7/gke-repo/node-img"
+    ]  

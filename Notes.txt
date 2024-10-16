@@ -4,4 +4,19 @@ gcloud container clusters create dev-cluster \
 gcloud container clusters create stage-cluster \
     --zone us-central1-a --num-nodes=3 --enable-ip-alias
 
+    gcloud container clusters delete dev-cluster --zone us-central1-a
+
 gcloud container clusters get-credentials dev-cluster --zone us-central1-a
+
+projects/prefab-faculty-438111-k7/locations/us-central1-a/clusters/dev-cluster
+
+
+gcloud container clusters create dev-cluster \
+    --zone us-central1-a \
+    --num-nodes 1 \
+    --machine-type e2-standard-2
+
+gcloud container clusters create stage-cluster \
+    --zone us-central1-a \
+    --num-nodes 1 \
+    --machine-type e2-standard-2
